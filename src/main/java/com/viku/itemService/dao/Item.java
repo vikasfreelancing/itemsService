@@ -20,6 +20,9 @@ public class Item {
     @Column(name = "IMAGES")
     private String images;
 
+    @Column(name="USER_ID")
+    private String userId;
+
     @Column(name = "TYPE")
     private String type;
 }

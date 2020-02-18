@@ -16,6 +16,11 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepository;
 
+    @GetMapping("/health")
+    String health(){
+        return "I am itemService up and running";
+    }
+
     @PostMapping("/saveItem")
     public Item saveItem(@RequestBody Item item) {
         return itemRepository.save(item);
