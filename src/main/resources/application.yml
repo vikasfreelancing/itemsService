@@ -1,15 +1,15 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+    url: jdbc:mysql://www.db4free.net:3306/finding_wizard
+    username: viku8266
+    password: Angel11@papa
   jpa:
     hibernate:
       ddl-auto: update
 
   spring:
     jpa:
-      database-platform: org.hibernate.dialect.postgreSQLDialect
+      database-platform: com.mysql.cj.jdbc.Driver
 server:
   port: 9092
 
