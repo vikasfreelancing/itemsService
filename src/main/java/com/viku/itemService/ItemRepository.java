@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ItemRepository extends CrudRepository<Item, Long> {
-    Item saveItem(Item item);
-
+    Item save(Item item);
     List<Item> findAll();
 }

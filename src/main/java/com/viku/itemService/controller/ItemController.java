@@ -18,13 +18,10 @@ public class ItemController {
 
     @PostMapping("/saveItem")
     public Item saveItem(@RequestBody Item item) {
-        return itemRepository.saveItem(item);
+        return itemRepository.save(item);
     }
-
     @GetMapping("/items")
     public List<Item> getItems() {
         return itemRepository.findAll();
     }
-
-
 }
