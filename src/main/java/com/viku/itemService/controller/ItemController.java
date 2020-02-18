@@ -17,7 +17,7 @@ public class ItemController {
     private ItemRepository itemRepository;
 
     @GetMapping("/health")
-    String health(){
+    public String health(){
         return "I am itemService up and running";
     }
 
