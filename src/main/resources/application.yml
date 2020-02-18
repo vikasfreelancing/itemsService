@@ -3,5 +3,13 @@ spring:
     url: ${JDBC_DATABASE_URL}
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  spring:
+    jpa:
+      database-platform: org.hibernate.dialect.postgreSQLDialect
 server:
   port: 9092
+
