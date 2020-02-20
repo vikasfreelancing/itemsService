@@ -8,11 +8,11 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Builder
 @Getter
 @Setter
 @ToString
 public class Item {
+    public Item(){}
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
