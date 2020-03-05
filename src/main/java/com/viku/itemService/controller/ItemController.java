@@ -1,7 +1,9 @@
 package com.viku.itemService.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.viku.itemService.ItemRepository;
 import com.viku.itemService.dao.Item;
+import com.viku.itemService.service.ItemPostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,9 @@ import java.util.List;
 public class ItemController {
 
     @Autowired
+    private ItemPostService itemPostService;
+
+    @Autowired
     private ItemRepository itemRepository;
 
     @GetMapping("/health")
@@ -24,8 +29,8 @@ public class ItemController {
     }
 
     @PostMapping("/saveItem")
-    public Item saveItem(@RequestBody Item item) {
-        return itemRepository.save(item);
+    public Item saveItem(@RequestBody Item item) throws JsonProcessingException {
+        return itemPostService.saveItemAndPushToKafkaTopic(item);
     }
     @GetMapping("/items")
     public List<Item> getItems() {

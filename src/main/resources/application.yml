@@ -11,5 +11,8 @@ spring:
     jpa:
       database-platform: com.mysql.cj.jdbc.Driver
 server:
-  port: 9092
-
+  port: 8081
+kafka:
+  producer:
+    bootstrap:
+      address: localhost:9092
