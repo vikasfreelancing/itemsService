@@ -6,13 +6,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
   spring:
     jpa:
       database-platform: com.mysql.cj.jdbc.Driver
-server:
-  port: 9093
-
   kafka:
     bootstrap-servers: moped-01.srvs.cloudkafka.com:9094,moped-02.srvs.cloudkafka.com:9094,moped-03.srvs.cloudkafka.com:9094
     properties:
@@ -29,4 +25,6 @@ server:
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 cloudkarafka:
-  training_topic: 5h860wrw-training
+  training_topic: 5h860wrw-default
+server:
+  port: 9093
