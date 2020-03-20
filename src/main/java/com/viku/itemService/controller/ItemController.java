@@ -41,4 +41,11 @@ public class ItemController {
         log.info("Returning following items : {}", items);
         return items;
     }
+    @PostMapping("/saveFoundItem")
+    public LostItem saveFoundItem(@RequestBody LostItem item) {
+        log.info("Requet recived for saving item with request : {}", item);
+        LostItem savedItem = itemPushService.saveitemAndPushTokafka(item);
+        log.info("Item : {} saved sucessfully ", savedItem);
+        return savedItem;
+    }
 }
