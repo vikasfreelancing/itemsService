@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
-public class Item {
-    public Item(){}
+public class FoundItem {
+    public FoundItem(){}
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

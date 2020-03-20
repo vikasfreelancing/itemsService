@@ -1,6 +1,6 @@
 package com.viku.itemService.controller;
 
-import com.viku.itemService.dao.Item;
+import com.viku.itemService.dao.LostItem;
 import com.viku.itemService.service.ItemPullService;
 import com.viku.itemService.service.ItemPushService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,17 +27,17 @@ public class ItemController {
     }
 
     @PostMapping("/saveItem")
-    public Item saveItem(@RequestBody Item item) {
+    public LostItem saveItem(@RequestBody LostItem item) {
         log.info("Requet recived for saving item with request : {}", item);
-        Item savedItem = itemPushService.saveitemAndPushTokafka(item);
+        LostItem savedItem = itemPushService.saveitemAndPushTokafka(item);
         log.info("Item : {} saved sucessfully ", savedItem);
         return savedItem;
     }
 
     @GetMapping("/items")
-    public List<Item> getItems() {
+    public List<LostItem> getItems() {
         log.info("Requet recived for get Items");
-        List<Item> items = itemPullService.getItems();
+        List<LostItem> items = itemPullService.getItems();
         log.info("Returning following items : {}", items);
         return items;
     }

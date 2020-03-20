@@ -78,6 +78,7 @@ public class FaceRecognition {
         INDArray encodings = forwardPass(normalize(read));
         double minDistance = Double.MAX_VALUE;
         String foundUser = "";
+
         for (Map.Entry<String, INDArray> entry : memberEncodingsMap.entrySet()) {
             INDArray value = entry.getValue();
             double distance = distance(value, encodings);
