@@ -25,15 +25,11 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     //dependency for machine learning
-    implementation 'org.nd4j:nd4j-native-platform:1.0.0-beta'
     implementation 'org.deeplearning4j:deeplearning4j-core:1.0.0-beta'
-    implementation 'org.deeplearning4j:deeplearning4j-zoo:1.0.0-beta'
     implementation 'org.deeplearning4j:deeplearning4j-modelimport:1.0.0-beta'
-    implementation 'org.datavec:datavec-data-image:1.0.0-beta'
+    //implementation 'org.datavec:datavec-data-image:1.0.0-beta'
     implementation 'org.bytedeco.javacpp-presets:ffmpeg:3.2.1-1.3'
-    implementation 'org.bytedeco.javacpp-presets:ffmpeg-platform:3.2.1-1.3'
-    implementation 'org.bytedeco:javacv:1.4.1'
-
+   // implementation 'org.bytedeco:javacv:1.4.1'
 }
 task stage {
     dependsOn build
