@@ -25,6 +25,7 @@ spring:
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 cloudkarafka:
-  training_topic: 5h860wrw-default
+  lost_topic: 5h860wrw-default
+  found_topic: 5h860wrw-
 server:
   port: 9093

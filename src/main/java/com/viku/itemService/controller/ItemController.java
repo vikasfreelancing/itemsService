@@ -1,5 +1,6 @@
 package com.viku.itemService.controller;
 
+import com.viku.itemService.dao.FoundItem;
 import com.viku.itemService.dao.LostItem;
 import com.viku.itemService.service.ItemPullService;
 import com.viku.itemService.service.ItemPushService;
@@ -26,26 +27,35 @@ public class ItemController {
         return "I am itemService up and running";
     }
 
-    @PostMapping("/saveItem")
-    public LostItem saveItem(@RequestBody LostItem item) {
+    @PostMapping("/lost/save")
+    public LostItem saveLostItem(@RequestBody LostItem item) {
         log.info("Requet recived for saving item with request : {}", item);
         LostItem savedItem = itemPushService.saveitemAndPushTokafka(item);
-        log.info("Item : {} saved sucessfully ", savedItem);
+        log.info("Lost Item : {} saved sucessfully ", savedItem);
         return savedItem;
     }
 
-    @GetMapping("/items")
-    public List<LostItem> getItems() {
+    @GetMapping("/lost/items")
+    public List<LostItem> getLostItems() {
         log.info("Requet recived for get Items");
         List<LostItem> items = itemPullService.getItems();
         log.info("Returning following items : {}", items);
         return items;
     }
-    @PostMapping("/saveFoundItem")
-    public LostItem saveFoundItem(@RequestBody LostItem item) {
-        log.info("Requet recived for saving item with request : {}", item);
-        LostItem savedItem = itemPushService.saveitemAndPushTokafka(item);
-        log.info("Item : {} saved sucessfully ", savedItem);
+    @PostMapping("/found/save")
+    public FoundItem saveFoundItem(@RequestBody FoundItem foundItem) {
+        log.info("Requet recived for saving found item with request : {}", foundItem);
+        FoundItem savedItem = itemPushService.saveFoundAndPushTokafka(foundItem);
+        log.info("foundItem : {} saved sucessfully ", savedItem);
         return savedItem;
     }
+
+    @GetMapping("/found/items")
+    public List<FoundItem> getFoundItems() {
+        log.info("Requet recived for get found Items");
+        List<FoundItem> items = itemPullService.getFoundItems();
+        log.info("Returning following found items : {}", items);
+        return items;
+    }
+
 }

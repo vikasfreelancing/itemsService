@@ -9,15 +9,11 @@ public class Producer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-
-    @Value("${cloudkarafka.training_topic}")
-    private String topic;
-
     Producer(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void send(String message) {
+    public void send(String message,String topic) {
         this.kafkaTemplate.send(topic, message);
         System.out.println("Sent sample message [" + message + "] to " + topic);
     }
