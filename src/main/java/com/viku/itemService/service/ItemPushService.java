@@ -39,4 +39,8 @@ public class ItemPushService {
         kafkaPushService.send(savedItem.getId().toString(),foundItemKafkaTopic);
         return savedItem;
     }
+
+    public LostItem saveLostItem(LostItem lostItem){
+        return lostItemRepository.save(lostItem);
+    }
 }

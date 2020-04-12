@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemPullService {
@@ -16,10 +17,18 @@ public class ItemPullService {
     @Autowired
     private FoundItemRepository foundItemRepository;
 
-    public List<LostItem> getItems() {
+    public List<LostItem> getLostItems() {
         return lostItemRepository.findAll();
     }
     public List<FoundItem> getFoundItems() {
         return foundItemRepository.findAll();
     }
+    public  FoundItem getFoundItem(Long id){
+        Optional<FoundItem> foundItem = foundItemRepository.findById(id);
+        return  foundItem.get();
+    }
+    public LostItem getLostItem(Long id){
+       return lostItemRepository.getOne(id);
+    }
+
 }

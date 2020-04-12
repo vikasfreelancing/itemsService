@@ -9,14 +9,14 @@ import java.io.IOException;
 
 @Service
 public class FaceRecognitionService {
-
-    @Autowired
-    FaceRecognition faceRecognition;
-    private void addLostItem(String imageUrl, String name) throws IOException {
-         faceRecognition.registerNewMember(name, imageUrl);
-    }
-    private String checkInFindItems(String imageUrl) throws IOException {
-        String memberId = faceRecognition.whoIs(imageUrl);
-        return memberId;
-    }
+//
+//    @Autowired
+//    FaceRecognition faceRecognition;
+//    private void addLostItem(String imageUrl, String name) throws IOException {
+//         faceRecognition.registerNewMember(name, imageUrl);
+//    }
+//    private String checkInFindItems(String imageUrl) throws IOException {
+//        String memberId = faceRecognition.whoIs(imageUrl);
+//        return memberId;
+//    }
 }

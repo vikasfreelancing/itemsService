@@ -1,5 +1,7 @@
 package com.viku.itemService.faceRecognition;
 
+import com.viku.itemService.repository.FoundItemRepository;
+import com.viku.itemService.repository.LostItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_imgcodecs;
@@ -10,6 +12,7 @@ import org.deeplearning4j.nn.workspace.LayerWorkspaceMgr;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.NDArrayIndex;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,8 +28,6 @@ public class FaceRecognition {
     private FaceNetSmallV2Model faceNetSmallV2Model;
     private ComputationGraph computationGraph;
     private static final NativeImageLoader LOADER = new NativeImageLoader(96, 96, 3);
-    private final HashMap<String, INDArray> memberEncodingsMap = new HashMap<>();
-
     private INDArray transpose(INDArray indArray1) {
         INDArray one = Nd4j.create(new int[]{1, 96, 96});
         one.assign(indArray1.get(NDArrayIndex.point(0), NDArrayIndex.point(2)));
@@ -64,7 +65,7 @@ public class FaceRecognition {
         log.info(computationGraph.summary());
     }
 
-    public void registerNewMember(String memberId, String imagePath) throws IOException {
+    public void registerNewMember(String memberId, String imagePath,HashMap<String, INDArray> memberEncodingsMap) throws IOException {
         INDArray read = read(imagePath);
         memberEncodingsMap.put(memberId, forwardPass(normalize(read)));
     }
@@ -73,7 +74,7 @@ public class FaceRecognition {
         return read.div(255.0);
     }
 
-    public String whoIs(String imagePath) throws IOException {
+    public String whoIs(String imagePath,HashMap<String, INDArray> memberEncodingsMap) throws IOException {
         INDArray read = read(imagePath);
         INDArray encodings = forwardPass(normalize(read));
         double minDistance = Double.MAX_VALUE;

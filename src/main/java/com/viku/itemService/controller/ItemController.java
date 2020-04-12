@@ -38,7 +38,7 @@ public class ItemController {
     @GetMapping("/lost/items")
     public List<LostItem> getLostItems() {
         log.info("Requet recived for get Items");
-        List<LostItem> items = itemPullService.getItems();
+        List<LostItem> items = itemPullService.getLostItems();
         log.info("Returning following items : {}", items);
         return items;
     }

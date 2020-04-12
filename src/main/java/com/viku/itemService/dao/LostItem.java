@@ -25,4 +25,8 @@ public class LostItem {
 
     @Column(name = "TYPE")
     private String type;
+    @Column(name="IS_FOUND")
+    private boolean isFound;
+    @Column(name = "FOUNDED_ID")
+    private Long foundId;
 }
