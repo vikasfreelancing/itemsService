@@ -1,7 +1,5 @@
 package com.viku.itemService.faceRecognition;
 
-import com.viku.itemService.repository.FoundItemRepository;
-import com.viku.itemService.repository.LostItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.javacpp.opencv_core;
 import org.bytedeco.javacpp.opencv_imgcodecs;
@@ -17,6 +15,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,19 +41,32 @@ public class FaceRecognition {
     }
 
     private INDArray read(String pathname) throws IOException {
-        opencv_core.Mat imread = opencv_imgcodecs.imread(new File(pathname).getAbsolutePath(), 1);
+        URL url = new URL(pathname);
+        File temp = downloadFile(url);
+        opencv_core.Mat imread = opencv_imgcodecs.imread(temp.getAbsolutePath(), 1);
+        temp.delete();
         INDArray indArray = LOADER.asMatrix(imread);
         return transpose(indArray);
     }
+    private File downloadFile(URL url){
+        try (InputStream in = url.openStream()){
+            File tempfile = new File("tempfile.jpg");
+            Files.copy(in, Paths.get(tempfile.getAbsolutePath()));
+            return tempfile;
+        }
+        catch (Exception e){
+          return null;
+        }
 
+    }
     private INDArray forwardPass(INDArray indArray) {
         Map<String, INDArray> output = computationGraph.feedForward(indArray, false);
         GraphVertex embeddings = computationGraph.getVertex("encodings");
         INDArray dense = output.get("dense");
         embeddings.setInputs(dense);
         INDArray embeddingValues = embeddings.doForward(false, LayerWorkspaceMgr.builder().defaultNoWorkspace().build());
-        log.debug("dense =                 " + dense);
-        log.debug("encodingsValues =                 " + embeddingValues);
+        log.debug("dense = " + dense);
+        log.debug("encodingsValues = " + embeddingValues);
         return embeddingValues;
     }
 

@@ -329,6 +329,7 @@ public class FaceNetSmallV2Model {
         String rel2 = lastReluId();
 
         graph.addLayer("avg7",
+
                 new SubsamplingLayer.Builder(SubsamplingLayer.PoolingType.AVG, new int[]{3, 3},
                         new int[]{3, 3})
                         .convolutionMode(ConvolutionMode.Truncate)

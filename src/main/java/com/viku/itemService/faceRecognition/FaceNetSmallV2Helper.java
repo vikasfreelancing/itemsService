@@ -28,8 +28,7 @@ import static com.viku.itemService.faceRecognition.FaceNetSmallV2Model.reluIndex
 @Slf4j
 @Service
 public class FaceNetSmallV2Helper {
-    static final String BASE = "FaceRecognition/src/main/resources/face/";
-
+    static final String BASE = "";
     static ActivationLayer relu() {
         return new ActivationLayer.Builder().activation(Activation.RELU).build();
     }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -43,7 +44,7 @@ public class ItemController {
         return items;
     }
     @PostMapping("/found/save")
-    public FoundItem saveFoundItem(@RequestBody FoundItem foundItem) {
+    public FoundItem saveFoundItem(@RequestBody FoundItem foundItem) throws IOException {
         log.info("Requet recived for saving found item with request : {}", foundItem);
         FoundItem savedItem = itemPushService.saveFoundAndPushTokafka(foundItem);
         log.info("foundItem : {} saved sucessfully ", savedItem);

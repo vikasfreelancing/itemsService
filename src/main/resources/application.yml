@@ -19,9 +19,9 @@ spring:
         jaas:
           config: org.apache.kafka.common.security.scram.ScramLoginModule required username="5h860wrw" password="dJ5Wq7kkovd2V9ROJltMOqhi3K3xS38K";
     consumer:
-      group-id: 5h860wrw-consumers
       auto-offset-reset: latest
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: 5h860wrw-consumers
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 cloudkarafka:
@@ -29,3 +29,6 @@ cloudkarafka:
   found_topic: 5h860wrw-found_items
 server:
   port: 9093
+
+training:
+  baseUrl: /Users/pankajsharma/development/backenddevelopment/itemsService/src/main/resources/face/
