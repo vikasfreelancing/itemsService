@@ -32,16 +32,16 @@ public class Consumer {
     @Autowired
     private FaceRecognition faceRecognition;
     @KafkaListener(topics = "${cloudkarafka.found_topic}")
-    public void processfoundItems(String message,
+    public void processFoundItems(String id,
                                   @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                                   @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                   @Header(KafkaHeaders.OFFSET) List<Long> offsets) throws Exception {
 
-        System.out.printf("%s-%d[%d] \"%s\"\n", topics.get(0), partitions.get(0), offsets.get(0), message);
-        log.info("Listiner Started with message :{}",message);
-        FoundItem foundItem = itemPullService.getFoundItem(Long.parseLong(message));
+        System.out.printf("%s-%d[%d] \"%s\"\n", topics.get(0), partitions.get(0), offsets.get(0), id);
+        log.info("Listener Started with message :{}",id);
+        FoundItem foundItem = itemPullService.getFoundItem(id);
         log.info("Found Item : {}",foundItem);
-        log.info("Loading model");
+        log.info("Loading CNN model");
         faceRecognition.loadModel();
         List<LostItem> lostItems = itemPullService.getLostItems();
         HashMap<String, INDArray> memberEncodingsMap = new HashMap<>();
@@ -61,10 +61,9 @@ public class Consumer {
         String foundUser=memberEncodingsMap.size()==0 ? "Unknown user":faceRecognition.whoIs(foundItem.getImages(),memberEncodingsMap);
         if(!foundUser.equalsIgnoreCase("Unknown user")){
             log.info("Found user Id : {}",foundUser);
-            Long foundId = Long.parseLong(foundUser);
-            LostItem lostItem = itemPullService.getLostItem(foundId);
+            LostItem lostItem = itemPullService.getLostItem(foundUser);
             lostItem.setFound(true);
-            lostItem.setFoundId(Long.parseLong(message));
+            lostItem.setFoundId(id);
             itemPushService.saveLostItem(lostItem);
         }
     }

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 
 @Service
@@ -32,13 +31,11 @@ public class ItemPushService {
     @Value("${cloudkarafka.found_topic}")
     private String foundItemKafkaTopic;
 
-    @Transactional
     public LostItem saveitemAndPushTokafka(LostItem item){
         LostItem savedItem = lostItemRepository.save(item);
         kafkaPushService.send(savedItem.getId().toString(),lostItemKafkaTopic);
         return savedItem;
     }
-    @Transactional
     public FoundItem saveFoundAndPushTokafka(FoundItem item) throws IOException {
         FoundItem savedItem = foundItemRepository.save(item);
         kafkaPushService.send(savedItem.getId()+"",foundItemKafkaTopic);

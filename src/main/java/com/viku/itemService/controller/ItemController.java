@@ -24,36 +24,35 @@ public class ItemController {
     private ItemPullService itemPullService;
 
     @GetMapping("/health")
-    public String health() {
-        return "I am itemService up and running";
+    String health(){
+        return "I am itemRecognitionService up and running";
     }
-
     @PostMapping("/lost/save")
     public LostItem saveLostItem(@RequestBody LostItem item) {
-        log.info("Requet recived for saving item with request : {}", item);
+        log.info("Request received for saving item with request : {}", item);
         LostItem savedItem = itemPushService.saveitemAndPushTokafka(item);
-        log.info("Lost Item : {} saved sucessfully ", savedItem);
+        log.info("Lost Item : {} saved successfully ", savedItem);
         return savedItem;
     }
 
     @GetMapping("/lost/items")
     public List<LostItem> getLostItems() {
-        log.info("Requet recived for get Items");
+        log.info("Request received for get Items");
         List<LostItem> items = itemPullService.getLostItems();
         log.info("Returning following items : {}", items);
         return items;
     }
     @PostMapping("/found/save")
     public FoundItem saveFoundItem(@RequestBody FoundItem foundItem) throws IOException {
-        log.info("Requet recived for saving found item with request : {}", foundItem);
+        log.info("Request received for saving found item with request : {}", foundItem);
         FoundItem savedItem = itemPushService.saveFoundAndPushTokafka(foundItem);
-        log.info("foundItem : {} saved sucessfully ", savedItem);
+        log.info("foundItem : {} saved successfully ", savedItem);
         return savedItem;
     }
 
     @GetMapping("/found/items")
     public List<FoundItem> getFoundItems() {
-        log.info("Requet recived for get found Items");
+        log.info("Request received for get found Items");
         List<FoundItem> items = itemPullService.getFoundItems();
         log.info("Returning following found items : {}", items);
         return items;
