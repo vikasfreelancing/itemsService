@@ -4,7 +4,6 @@ package com.viku.itemService.kafka;
 import com.viku.itemService.dao.FoundItem;
 import com.viku.itemService.dao.LostItem;
 import com.viku.itemService.faceRecognition.FaceRecognition;
-import com.viku.itemService.repository.LostItemRepository;
 import com.viku.itemService.service.ItemPullService;
 import com.viku.itemService.service.ItemPushService;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +49,7 @@ public class Consumer {
                 List<String> imagePaths = Arrays.asList(lostItem.getImages().substring(0,lostItem.getImages().length()-1).split(","));
                 imagePaths.forEach(image->{
                     try {
-                        faceRecognition.registerNewMember(lostItem.getId()+"",image,memberEncodingsMap);
+                        faceRecognition.registerNewMember(lostItem.getId(),image,memberEncodingsMap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -60,7 +59,7 @@ public class Consumer {
 
         String foundUser=memberEncodingsMap.size()==0 ? "Unknown user":faceRecognition.whoIs(foundItem.getImages(),memberEncodingsMap);
         if(!foundUser.equalsIgnoreCase("Unknown user")){
-            log.info("Found user Id : {}",foundUser);
+            log.info("Found Lost Item Id : {}",foundUser);
             LostItem lostItem = itemPullService.getLostItem(foundUser);
             lostItem.setFound(true);
             lostItem.setFoundId(id);
