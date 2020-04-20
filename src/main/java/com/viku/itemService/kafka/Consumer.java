@@ -44,23 +44,29 @@ public class Consumer {
         faceRecognition.loadModel();
         List<LostItem> lostItems = itemPullService.getLostItems();
         HashMap<String, INDArray> memberEncodingsMap = new HashMap<>();
+        HashMap<String,String> tempToOriginalLostIdMapping = new HashMap<>();
         lostItems.forEach(lostItem -> {
+            int imageIndex = 0 ;
             if(lostItem.getImages()!=null){
                 List<String> imagePaths = Arrays.asList(lostItem.getImages().substring(0,lostItem.getImages().length()-1).split(","));
-                imagePaths.forEach(image->{
+                for(String image : imagePaths){
                     try {
-                        faceRecognition.registerNewMember(lostItem.getId(),image,memberEncodingsMap);
+                        String tempLostItemId = lostItem.getId()+"#"+imageIndex;
+                        tempToOriginalLostIdMapping.put(tempLostItemId,lostItem.getId());
+                        imageIndex++;
+                        faceRecognition.registerNewMember(tempLostItemId,image,memberEncodingsMap);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                });
+                }
             }
         });
 
         String foundUser=memberEncodingsMap.size()==0 ? "Unknown user":faceRecognition.whoIs(foundItem.getImages(),memberEncodingsMap);
         if(!foundUser.equalsIgnoreCase("Unknown user")){
-            log.info("Found Lost Item Id : {}",foundUser);
-            LostItem lostItem = itemPullService.getLostItem(foundUser);
+            String originalId = tempToOriginalLostIdMapping.get(foundUser);
+            log.info("Found Lost Item Id : {}",originalId);
+            LostItem lostItem = itemPullService.getLostItem(originalId);
             lostItem.setFound(true);
             lostItem.setFoundId(id);
             itemPushService.saveLostItem(lostItem);
